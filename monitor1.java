@@ -66,7 +66,7 @@ public class monitor1 {
         this.hashBeholder.remove(HashMapIndex2);
     }
 
-    public void lesFraFolder(String foldername) throws FileNotFoundException {
+    public void lesFraFolder(String foldername) throws FileNotFoundException, InterruptedException {
         File text = new File(foldername + "/metadata.csv");
         Scanner scanner = new Scanner(text);
 
@@ -77,9 +77,22 @@ public class monitor1 {
         }
         scanner.close();
 
+        ArrayList<Thread> threads = new ArrayList<>();
         for (int i = 0; i < filer.size(); i++) {
-            new LeseTrad(foldername, this);
-            this.lesFraFil(foldername + "/" + filer.get(i));
+            String filnavn = foldername + "/" + filer.get(i);
+            Thread trad = new LeseTrad(filnavn, this, i);
+
+            trad.start();
+            threads.add(trad);
+            // this.lesFraFil(foldername + "/" + filer.get(i));
+        }
+
+        // for (int i = 0; i < filer.size(); i++) {
+        // threads.get(i).join();
+        // }
+
+        for (Thread thread : threads) {
+            thread.join();
         }
     }
 

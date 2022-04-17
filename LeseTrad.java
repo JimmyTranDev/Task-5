@@ -4,13 +4,25 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class LeseTrad extends Thread {
+    int index;
+    String filnavn;
+    monitor1 monitor;
+
     @Override
     public void run() {
+        System.out.println("Running Thread " + this.index);
+        try {
+            this.lesFraFil(filnavn, monitor);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         super.run();
     }
 
-    LeseTrad(String filnavn, monitor1 monitor) throws FileNotFoundException {
-        this.lesFraFil(filnavn, monitor);
+    LeseTrad(String filnavn, monitor1 monitor, int index) throws FileNotFoundException {
+        this.index = index;
+        this.filnavn = filnavn;
+        this.monitor = monitor;
     }
 
     public void lesFraFil(String filDir, monitor1 monitor) throws FileNotFoundException {
