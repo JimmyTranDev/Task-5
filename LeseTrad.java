@@ -45,7 +45,7 @@ public class LeseTrad extends Thread {
                 }
             }
         }
-        monitor.hashBeholder.add(hashmap);
+        monitor.settInnHashmap(hashmap);
         scanner.close();
     }
 }
