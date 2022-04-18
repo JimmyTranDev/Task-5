@@ -1,6 +1,6 @@
 import java.io.FileNotFoundException;
 
-public class Oblig5Del2A {
+public class Oblig5Del2B {
 
     public static void main(String[] args) throws Exception {
         test("testdatalitenlike", "ASS", 3); // Nice
@@ -9,7 +9,7 @@ public class Oblig5Del2A {
 
     public static void test(String folderName, String key, int occurrence)
             throws FileNotFoundException, InterruptedException {
-        monitor1 register = new monitor1();
+        monitor2 register = new monitor2();
         register.lesFraFolder(folderName);
         register.slaaSammenAlle();
         int forekomst = register.hentForekomstAvKey(key, 0);

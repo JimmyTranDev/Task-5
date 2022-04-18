@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class LeseTrad extends Thread {
     int index;
     String filnavn;
-    monitor1 monitor;
+    monitor2 monitor;
 
     @Override
     public void run() {
@@ -19,13 +19,13 @@ public class LeseTrad extends Thread {
         super.run();
     }
 
-    LeseTrad(String filnavn, monitor1 monitor, int index) throws FileNotFoundException {
+    LeseTrad(String filnavn, monitor2 monitor2, int index) throws FileNotFoundException {
         this.index = index;
         this.filnavn = filnavn;
-        this.monitor = monitor;
+        this.monitor = monitor2;
     }
 
-    public void lesFraFil(String filDir, monitor1 monitor) throws FileNotFoundException {
+    public void lesFraFil(String filDir, monitor2 monitor2) throws FileNotFoundException {
         File text = new File(filDir);
         Scanner scanner = new Scanner(text);
         HashMap<String, Subsekvens> hashmap = new HashMap<>();
@@ -45,7 +45,7 @@ public class LeseTrad extends Thread {
                 }
             }
         }
-        monitor.settInnHashmap(hashmap);
+        monitor2.settInnHashmap(hashmap);
         scanner.close();
     }
 }

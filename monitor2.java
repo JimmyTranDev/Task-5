@@ -15,10 +15,44 @@ public class monitor2 {
         this.hashBeholder.add(hashmap);
     }
 
-    public HashMap<String, Subsekvens> taUtHashmap(int index) {
-        return this.hashBeholder.get(index);
-
+    public synchronized HashMap<String, Subsekvens> taUtHashmap() {
+        HashMap<String, Subsekvens> removed = this.hashBeholder.remove(this.antallHashmap() - 1);
+        return removed;
     }
+
+    public synchronized ArrayList<HashMap<String, Subsekvens>> taUtHashmap2Siste() throws InterruptedException {
+
+        if (this.antallHashmap() < 2) {
+            // for (int i = 0; i < 10; i++) {
+            // if (this.antallHashmap() > 2) {
+            // break;
+            // }
+            // wait(200);
+            // }
+            throw new InterruptedException("No more Hashmaps");
+        }
+
+        ArrayList<HashMap<String, Subsekvens>> removeds = new ArrayList<>();
+        HashMap<String, Subsekvens> removed1 = this.hashBeholder.get(this.antallHashmap() - 1);
+        this.hashBeholder.remove(this.antallHashmap() - 1);
+        removeds.add(removed1);
+
+        HashMap<String, Subsekvens> removed2 = this.hashBeholder.get(this.antallHashmap() - 1);
+        this.hashBeholder.remove(this.antallHashmap() - 1);
+        removeds.add(removed2);
+
+        return removeds;
+    }
+
+    // public synchronized HashMap<String, Subsekvens> taUtHashmap2() {
+    // HashMap<String, Subsekvens> removed1 =
+    // this.hashBeholder.get(this.hashBeholder.size() - 1);
+    // HashMap<String, Subsekvens> removed2 =
+    // this.hashBeholder.get(this.hashBeholder.size() - 2);
+    // this.hashBeholder.remove(this.hashBeholder.size() - 1);
+    // this.hashBeholder.remove(this.hashBeholder.size() - 2);
+    // return [removed1, removed2];
+    // }
 
     public int antallHashmap() {
         return this.hashBeholder.size();
@@ -91,10 +125,20 @@ public class monitor2 {
         }
     }
 
-    public void slaaSammenAlle() {
-        while (this.hashBeholder.size() > 1) {
-            this.slaaSammen(0, 1);
+    public void slaaSammenAlle() throws InterruptedException {
+        ArrayList<Thread> threads = new ArrayList<>();
+
+        for (int i = 0; i < 8; i++) {
+            Thread fletteTrad = new FletteTrad(this);
+            fletteTrad.start();
+            threads.add(fletteTrad);
         }
+
+        for (Thread thread : threads) {
+            thread.join();
+        }
+        System.out.println(this.antallHashmap());
+
     }
 
     public int hentForekomstAvKey(String key, int index) {
